@@ -1,6 +1,7 @@
 import pool from '../config/db.js';
 import { insertCustomer } from '../models/customerModel.js';
 import { insertServiceProvider } from '../models/serviceProviderModel.js';
+import bcrypt from 'bcrypt';
 
 export const signup = async (req, res) => {
   const {
@@ -18,7 +19,10 @@ export const signup = async (req, res) => {
   try {
     const conn = await pool.getConnection();
 
-    const values = [userType, name, age, nic, email, contact, district, city, password];
+    // Hash the password before inserting
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 = salt rounds
+
+    const values = [userType, name, age, nic, email, contact, district, city, hashedPassword];
 
     if (userType === 'Customer') {
       await insertCustomer(conn, values);
