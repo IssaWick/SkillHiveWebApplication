@@ -20,3 +20,8 @@ exports.createRequest = (data, callback) => {
     callback
   );
 };
+
+exports.getRequestsByProvider = (providerId, callback) => {
+  const sql = 'SELECT * FROM job_requests WHERE provider_id = ?';
+  db.query(sql, [providerId], callback);
+};
