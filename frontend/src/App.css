@@ -33,3 +33,8 @@
   width : 150px;
   border-radius: 30px;
 }
+
+.home-section {
+  padding: 60px 20px;
+  background-color: #f0f8f3;
+}
