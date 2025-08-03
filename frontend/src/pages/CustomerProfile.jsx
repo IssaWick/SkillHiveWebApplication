@@ -19,9 +19,7 @@ const CustomerProfile = () => {
 
       try {
         const res = await axios.get('http://localhost:3002/api/getProfile', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          withCredentials: true,
         })
         setUser(res.data)
       } catch (err) {
