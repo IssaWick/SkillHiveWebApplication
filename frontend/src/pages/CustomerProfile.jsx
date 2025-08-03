@@ -11,19 +11,13 @@ const CustomerProfile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem('token')
-      if (!token) {
-        navigate('/login')
-        return
-      }
-
       try {
         const res = await axios.get('http://localhost:3002/api/getProfile', {
-          withCredentials: true,
+          withCredentials: true, // IMPORTANT for cookie-based auth
         })
         setUser(res.data)
       } catch (err) {
-        console.error('Error fetching profile:', err)
+        console.error('Unauthorized or error fetching profile:', err)
         navigate('/login')
       }
     }
