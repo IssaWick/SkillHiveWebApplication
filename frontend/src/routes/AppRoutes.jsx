@@ -5,8 +5,9 @@ import SignupForm from '../pages/SignupForm'
 import LoginForm from '../pages/LoginForm'
 import CustomerProfile from '../pages/CustomerProfile'
 
+
 const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('userType')
   return token ? children : <Navigate to="/signup" />
 }
 

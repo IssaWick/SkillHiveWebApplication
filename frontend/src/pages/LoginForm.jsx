@@ -17,11 +17,15 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:3001/api/login', formData)
-      const { token, userType } = response.data
+      const response = await axios.post(
+        'http://localhost:3001/api/login',
+        formData,
+        { withCredentials: true } // Send & accept cookies
+      )
 
-      localStorage.setItem('token', token)
-      localStorage.setItem('userType', userType)
+      const { userType } = response.data
+
+      localStorage.setItem('userType', userType) // You can still keep userType if needed
 
       navigate('/')
     } catch (error) {

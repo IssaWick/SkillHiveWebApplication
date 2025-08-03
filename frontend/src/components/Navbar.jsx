@@ -1,23 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import logo from '../assets/SkillHive.png'
 import defaultAvatar from '../assets/default-avatar.png'
 
 const Navbar = () => {
   const navigate = useNavigate()
-  const token = localStorage.getItem('token')
-  const userType = localStorage.getItem('userType')
-  const profilePicture = localStorage.getItem('profilePicture') // fallback if null
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get('http://localhost:3002/api/getProfile', {
+          withCredentials: true,
+        })
+        setUser(res.data)
+      } catch (err) {
+        setUser(null) // not logged in
+      }
+    }
+
+    fetchProfile()
+  }, [])
 
   const handleLogout = () => {
-    localStorage.clear()
+    // Clear token cookie on the server (optional)
+    // For now, we just navigate to login
     navigate('/login')
   }
 
   const handleProfileClick = () => {
-    if (userType === 'Customer') {
+    if (user?.userType === 'Customer') {
       navigate('/profile/customer')
-    } else if (userType === 'Service Provider') {
+    } else if (user?.userType === 'Service Provider') {
       navigate('/profile/serviceprovider')
     }
   }
@@ -41,7 +56,8 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link text-white" to="/contact">Contact</Link>
             </li>
-            {token ? (
+
+            {user ? (
               <>
                 <li className="nav-item">
                   <Link className="nav-link text-white" to="/hired-services">Hired Services</Link>
@@ -56,7 +72,7 @@ const Navbar = () => {
                 </li>
                 <li className="nav-item">
                   <img
-                    src={profilePicture || defaultAvatar}
+                    src={user.profilePicture || defaultAvatar}
                     alt="Profile"
                     className="rounded-circle"
                     width="40"
