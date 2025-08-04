@@ -1,0 +1,40 @@
+.signup-wrapper {
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-form {
+  max-width: 800px;
+}
+
+.custom-navbar {
+  background-color: #4CB67A;
+}
+
+.custom-footer {
+  background-color: #4CB67A;
+}
+
+.footer-area i {
+  font-size: 1.2rem;
+  color: white;
+  cursor: pointer;
+}
+
+.footer-area i:hover {
+  color: #dddddd;
+}
+
+.me-2{
+  height: 60px;
+  width : 150px;
+  border-radius: 30px;
+}
+
+.home-section {
+  padding: 60px 20px;
+  background-color: #f0f8f3;
+}
