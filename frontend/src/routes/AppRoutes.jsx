@@ -1,23 +1,19 @@
 import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Home from '../pages/Home'
 import SignupForm from '../pages/SignupForm'
-import LoginForm from '../pages/LoginForm'
+import Login from '../pages/Login'
 import CustomerProfile from '../pages/CustomerProfile'
-
-
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('userType')
-  return token ? children : <Navigate to="/signup" />
-}
+import ServiceProviderProfile from '../pages/ServiceProviderProfile';
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/signup" element={<SignupForm />} />
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/profile/customer" element={<ProtectedRoute><CustomerProfile /></ProtectedRoute>} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/customer-profile" element={<CustomerProfile />} />
+      <Route path="/service-provider-profile" element={<ServiceProviderProfile />} />
     </Routes>
   )
 }

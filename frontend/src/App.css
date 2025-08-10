@@ -28,7 +28,22 @@
   color: #dddddd;
 }
 
+.navbar .btn-light {
+  background-color: rgb(21, 104, 219);
+  color: lab(100% 0.01 -0.01);
+  border-color:rgb(21, 104, 219);
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 4px 14px;
+}
+
 .me-2{
+  height: 30px;
+  width : 30px;
+  border-radius: 30px;
+}
+
+.me-2-logo{
   height: 60px;
   width : 150px;
   border-radius: 30px;

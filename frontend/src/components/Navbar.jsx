@@ -1,100 +1,85 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import logo from '../assets/SkillHive.png'
-import defaultAvatar from '../assets/default-avatar.png'
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../assets/SkillHive.png';
+import defaultAvatar from '../assets/default-avatar.png';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
-  const navigate = useNavigate()
-  const [user, setUser] = useState(null)
+  const { isAuthenticated, userType, logout } = useAuth();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await axios.get('http://localhost:3002/api/getProfile', {
-          withCredentials: true,
-        })
-        setUser(res.data)
-      } catch (err) {
-        setUser(null) // not logged in
-      }
+  // You can replace this with a context/state for profile picture later
+  // For now, using default avatar
+  const profilePic = defaultAvatar;
+
+  const handleLogout = async () => {
+    await logout();
+  };
+
+  const goToProfile = () => {
+    if (userType === 'Customer') {
+      navigate('/customer-profile');
+    } else if (userType === 'Service Provider') {
+      navigate('/service-provider-profile');
+    } else {
+      navigate('/');
     }
-
-    fetchProfile()
-  }, [])
-
-  const handleLogout = () => {
-    // Clear token cookie on the server (optional)
-    // For now, we just navigate to login
-    navigate('/login')
-  }
-
-  const handleProfileClick = () => {
-    if (user?.userType === 'Customer') {
-      navigate('/profile/customer')
-    } else if (user?.userType === 'Service Provider') {
-      navigate('/profile/serviceprovider')
-    }
-  }
+  };
 
   return (
-    <nav className="navbar navbar-expand-lg" style={{ backgroundColor: '#4CB67A' }}>
-      <div className="container">
-        <Link className="navbar-brand d-flex align-items-center text-white" to="/">
-          <img src={logo} alt="SkillHive Logo" width="45" className="me-2" />
-          <strong>SKILLHIVE</strong>
+    <nav className="navbar navbar-expand-lg custom-navbar px-4" style={{ backgroundColor: '#4CB67A' }}>
+      <div className="container-fluid">
+        <Link className="navbar-brand d-flex align-items-center" to="/">
+          <img src={logo} alt="SkillHive Logo" width="40" height="40" className="me-2-logo" />
         </Link>
 
         <div className="collapse navbar-collapse justify-content-end">
           <ul className="navbar-nav align-items-center">
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/">Home</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/about">About</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/contact">Contact</Link>
-            </li>
+            <li className="nav-item"><Link className="nav-link text-white" to="/">Home</Link></li>
+            <li className="nav-item"><Link className="nav-link text-white" to="#">About</Link></li>
+            <li className="nav-item"><Link className="nav-link text-white" to="#">Contact</Link></li>
 
-            {user ? (
+            {isAuthenticated && (
+              <li className="nav-item"><Link className="nav-link text-white" to="#">Hired Services</Link></li>
+            )}
+
+            {isAuthenticated ? (
               <>
-                <li className="nav-item">
-                  <Link className="nav-link text-white" to="/hired-services">Hired Services</Link>
-                </li>
+                {/* Notification Bell */}
                 <li className="nav-item mx-2">
-                  <button
-                    className="btn btn-outline-light rounded-circle"
-                    onClick={() => alert('Notifications')}
-                  >
+                  <button className="btn btn-link text-white p-0 fs-5" onClick={() => alert('Notifications')}>
                     <i className="bi bi-bell-fill"></i>
                   </button>
                 </li>
-                <li className="nav-item">
+
+                {/* Profile Picture */}
+                <li className="nav-item me-2">
                   <img
-                    src={user.profilePicture || defaultAvatar}
+                    src={profilePic}
                     alt="Profile"
+                    onClick={goToProfile}
                     className="rounded-circle"
-                    width="40"
-                    height="40"
-                    style={{ cursor: 'pointer', objectFit: 'cover' }}
-                    onClick={handleProfileClick}
+                    style={{ width: '32px', height: '32px', cursor: 'pointer', objectFit: 'cover' }}
                   />
                 </li>
-                <li className="nav-item ms-3">
-                  <button className="btn btn-light" onClick={handleLogout}>Logout</button>
+
+                {/* Logout Icon */}
+                <li className="nav-item">
+                  <button className="btn btn-link text-white fs-5" onClick={handleLogout}>
+                    <i className="bi bi-box-arrow-right"></i>
+                  </button>
                 </li>
               </>
             ) : (
               <li className="nav-item ms-3">
-                <Link className="btn btn-light" to="/signup">Sign up</Link>
+                <Link to="/signup" className="btn btn-light btn-sm">Sign Up</Link>
               </li>
             )}
           </ul>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import defaultAvatar from '../assets/default-avatar.png';
 import '../App.css';
 
-const CustomerProfile = () => {
+const ServiceProviderProfile = () => {
   const [user, setUser] = useState(null);
   const { isAuthenticated } = useAuth(); // Can still be used globally if you want
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const CustomerProfile = () => {
         const profile = res.data;
 
         // If userType is not Customer, redirect
-        if (profile.userType !== 'Customer') {
+        if (profile.userType !== 'Service Provider') {
           navigate('/');
           return;
         }
@@ -80,4 +80,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default ServiceProviderProfile;

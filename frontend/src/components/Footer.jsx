@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container">
         <div className="row align-items-center mb-3">
           <div className="col-md-6 d-flex align-items-center">
-            <img src={logo} alt="Logo" width="40" height="40" className="me-2" />
+            <img src={logo} alt="Logo" width="40" height="40" className="me-2-logo" />
           </div>
           <div className="col-md-6 text-md-end">
             <div>71/7, Niyandagala Road, Pannipitiya</div>
