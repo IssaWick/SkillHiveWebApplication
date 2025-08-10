@@ -1,33 +1,27 @@
-import express from 'express'
-import { signup } from '../controllers/signupController.js'
-import db from '../config/db.js'
+import express from 'express';
+import { signup } from '../controllers/signupController.js';
+import db from '../config/db.js';
 
-const router = express.Router()
+const router = express.Router();
 
 // Sign up route
-router.post('/signup', signup)
+router.post('/signup', signup);
 
-// Check if email already exists
+// Check if email already exists in 'user' table
 router.post('/check-email', async (req, res) => {
-  const { email, userType } = req.body
+  const { email } = req.body;
+
   try {
-    const table =
-      userType === 'Customer'
-        ? 'customers'
-        : userType === 'Service Provider'
-        ? 'serviceprovider'
-        : userType === 'Admin'
-        ? 'admin'
-        : null
+    const [rows] = await db.execute(
+      'SELECT * FROM user WHERE email = ?',
+      [email]
+    );
 
-    if (!table) return res.status(400).json({ error: 'Invalid userType' })
-
-    const [rows] = await db.execute(`SELECT * FROM ${table} WHERE email = ?`, [email])
-    res.json({ exists: rows.length > 0 })
+    res.json({ exists: rows.length > 0 });
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ error: 'Server error' })
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
   }
-})
+});
 
-export default router
+export default router;

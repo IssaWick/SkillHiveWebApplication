@@ -1,6 +1,5 @@
 import pool from '../config/db.js';
-import { insertCustomer } from '../models/customerModel.js';
-import { insertServiceProvider } from '../models/serviceProviderModel.js';
+import { insertUser } from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 
 export const signup = async (req, res) => {
@@ -19,18 +18,11 @@ export const signup = async (req, res) => {
   try {
     const conn = await pool.getConnection();
 
-    // Hash the password before inserting
-    const hashedPassword = await bcrypt.hash(password, 10); // 10 = salt rounds
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const values = [userType, name, age, nic, email, contact, district, city, hashedPassword];
 
-    if (userType === 'Customer') {
-      await insertCustomer(conn, values);
-    } else if (userType === 'Service Provider') {
-      await insertServiceProvider(conn, values);
-    } else {
-      return res.status(400).json({ error: 'Invalid userType' });
-    }
+    await insertUser(conn, values);
 
     conn.release();
     res.status(201).json({ message: 'Signup successful' });

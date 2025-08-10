@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 
 import signupRoute from './routes/signupRoute.js';
 import loginRoute from './routes/loginRoute.js';
+import logoutRoute from './routes/logoutRoute.js';
 import userInfoRoute from './routes/userInfoRoute.js';
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(cookieParser());
 
 app.use('/api', signupRoute);
 app.use('/api', loginRoute);
+app.use('/api', logoutRoute);
 app.use('/api', userInfoRoute);
 
 app.listen(PORT, () => {

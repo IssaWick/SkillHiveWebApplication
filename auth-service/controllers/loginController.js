@@ -6,32 +6,15 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const login = async (req, res) => {
-  const { userType, email, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!userType || !email || !password) {
-    return res.status(400).json({ error: 'All fields are required.' });
-  }
-
-  const table = userType === 'Customer'
-    ? 'customers'
-    : userType === 'Service Provider'
-    ? 'serviceprovider'
-    : userType === 'Admin'
-    ? 'admin'
-    : null;
-
-  if (!table) {
-    return res.status(400).json({ error: 'Invalid user type.' });
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required.' });
   }
 
   try {
     const conn = await pool.getConnection();
-
-    const [rows] = await conn.execute(
-      `SELECT * FROM ${table} WHERE email = ?`,
-      [email]
-    );
-
+    const [rows] = await conn.execute('SELECT * FROM user WHERE email = ?', [email]);
     conn.release();
 
     if (rows.length === 0) {
@@ -39,7 +22,6 @@ export const login = async (req, res) => {
     }
 
     const user = rows[0];
-
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
@@ -48,8 +30,8 @@ export const login = async (req, res) => {
 
     const payload = {
       id: user.id,
-      userType,
-      email: user.email
+      email: user.email,
+      userType: user.userType
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -59,15 +41,14 @@ export const login = async (req, res) => {
     res
       .cookie('token', token, {
         httpOnly: true,
-        secure: false, // Set to true in production with 
+        secure: false,
         sameSite: 'Lax',
         maxAge: 2 * 60 * 60 * 1000
       })
       .status(200)
-      .json({ message: 'Login successful', userType, token });
-
+      .json({ message: 'Login successful', token, userType: user.userType });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Login failed' });
+    res.status(500).json({ error: 'Login failed.' });
   }
 };
