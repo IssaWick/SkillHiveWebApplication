@@ -10,7 +10,7 @@ export const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // decoded has: { id, email, userType }
+    req.user = decoded; // decoded has: { id, email }
     next();
   } catch (err) {
     console.error(err);
