@@ -1,0 +1,41 @@
+.hero-section {
+  height: 80vh;
+  background: url('./assets/hero.jpg') no-repeat center center/cover;
+}
+
+.service-card {
+  background: white;
+  transition: all 0.3s ease;
+}
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.how-card {
+  transition: all 0.3s ease;
+}
+.how-card:hover {
+  transform: translateY(-5px);
+}
+
+.circle-step {
+  width: 50px;
+  height: 50px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.testimonial-card {
+  font-style: italic;
+}
+
+.cta-section {
+  background-color: #B4E50D;
+}
