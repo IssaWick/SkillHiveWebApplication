@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import logo from '../assets/SkillHive.png';
 import defaultAvatar from '../assets/default-avatar.png';
 import { useAuth } from '../context/AuthContext';
@@ -7,10 +8,30 @@ import { useAuth } from '../context/AuthContext';
 const Navbar = () => {
   const { isAuthenticated, userType, logout } = useAuth();
   const navigate = useNavigate();
+  const [profilePic, setProfilePic] = useState(defaultAvatar);
 
-  // You can replace this with a context/state for profile picture later
-  // For now, using default avatar
-  const profilePic = defaultAvatar;
+  // Fetch logged-in user's profile picture
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (isAuthenticated) {
+        try {
+          const response = await axios.get('http://localhost:3002/api/getProfile', {
+            withCredentials: true, // send JWT cookie
+          });
+          const { profilePicture } = response.data;
+          if (profilePicture) {
+            setProfilePic(profilePicture);
+          } else {
+            setProfilePic(defaultAvatar);
+          }
+        } catch (error) {
+          console.error('Error fetching profile:', error);
+          setProfilePic(defaultAvatar);
+        }
+      }
+    };
+    fetchProfile();
+  }, [isAuthenticated]);
 
   const handleLogout = async () => {
     await logout();
