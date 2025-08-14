@@ -7,6 +7,7 @@ import signupRoute from './routes/signupRoute.js';
 import loginRoute from './routes/loginRoute.js';
 import logoutRoute from './routes/logoutRoute.js';
 import userInfoRoute from './routes/userInfoRoute.js';
+import userUpdateRoute from './routes/userUpdateRoute.js';
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,7 @@ app.use('/api', signupRoute);
 app.use('/api', loginRoute);
 app.use('/api', logoutRoute);
 app.use('/api', userInfoRoute);
+app.use('/api', userUpdateRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
