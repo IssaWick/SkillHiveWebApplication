@@ -1,9 +1,9 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
-import profileRoutes from './routes/profileRoute.js';
+import profileRoutes from "./routes/profileRoute.js";
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api', profileRoutes);
+app.use("/api", profileRoutes);
 
 app.listen(PORT, () => {
   console.log(`Profile Service running on port ${PORT}`);
