@@ -1,0 +1,59 @@
+.quick-book-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-book-form {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+}
+
+.quick-book-form h2 {
+  margin-bottom: 10px;
+}
+
+.quick-book-form label {
+  display: block;
+  margin-top: 10px;
+}
+
+.quick-book-form input, 
+.quick-book-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.quick-book-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.quick-book-buttons button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.quick-book-buttons button:first-child {
+  background: #28a745;
+  color: white;
+}
+
+.quick-book-buttons button:last-child {
+  background: #dc3545;
+  color: white;
+}
