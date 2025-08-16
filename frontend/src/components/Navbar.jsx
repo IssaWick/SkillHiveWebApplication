@@ -57,7 +57,7 @@ const Navbar = () => {
         <div className="collapse navbar-collapse justify-content-end">
           <ul className="navbar-nav align-items-center">
             <li className="nav-item"><Link className="nav-link text-white" to="/">Home</Link></li>
-            <li className="nav-item"><Link className="nav-link text-white" to="#">About</Link></li>
+            <li className="nav-item"><Link className="nav-link text-white" to="/About">About</Link></li>
             <li className="nav-item"><Link className="nav-link text-white" to="#">Contact</Link></li>
 
             {isAuthenticated && (
