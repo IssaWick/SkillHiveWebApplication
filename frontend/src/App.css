@@ -64,5 +64,39 @@
   background-color: #10d326;
 }*/
 
+ /*About CSS*/
+
+.about-page img {
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.our-values .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.our-values .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.about-title {
+  color: rgb(50, 47, 47) !important;
+}
+
+.icon-trust {
+  color: #2fe12f;
+  font-size: 4.5rem;
+}
+
+.icon-innovation {
+  color: #FFD700;
+  font-size: 4.5rem;
+}
+
+.icon-community {
+  color: #157ce4;
+  font-size: 4.5rem;
+}
 
 
