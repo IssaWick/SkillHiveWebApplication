@@ -1,0 +1,100 @@
+/* Container */
+.provider-home {
+  padding: 20px;
+  background: #f7f8fa; /* soft light background */
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.provider-home h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Dashboard Cards Grid */
+.cards-grid {
+  display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+ 
+  gap: 20px;
+}
+
+/* Individual Card */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 50px 20px; /* reduced padding for nicer look */
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  background: #f0f8ff; /* subtle blue hover */
+  transform: translateY(-6px);
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Icon inside Card */
+.card svg {
+  font-size: 45px;
+  color: #007bff; /* matching FAB color */
+  margin-bottom: 12px;
+}
+
+/* Card Title */
+.card h4 {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Links to make cards clickable */
+.card-link {
+  text-decoration: none;
+}
+
+/* Floating Action Button (FAB) */
+.fab {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #007bff;
+  border: none;
+  color: white;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 15px rgba(0, 123, 255, 0.3);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.fab:hover {
+  background: #0056b3;
+  transform: scale(1.1);
+  box-shadow: 0px 8px 20px rgba(0, 123, 255, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .card {
+    padding: 40px 15px;
+  }
+
+  .card svg {
+    font-size: 35px;
+  }
+
+  .fab {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}
