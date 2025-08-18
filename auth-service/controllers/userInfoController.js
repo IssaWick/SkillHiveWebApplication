@@ -25,7 +25,7 @@ export const getUserInfo = async (req, res) => {
 };
 
 
-// GET user by ID
+// GET user by ID 
 export const getUserInfoById = async (req, res) => {
   const { id } = req.params;
 
