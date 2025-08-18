@@ -99,4 +99,44 @@
   font-size: 4.5rem;
 }
 
+/*Admin dashboard*/
 
+.admin-dashboard {
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .nav-link {
+  color: #333;
+  padding: 10px 20px;
+  font-weight: 500;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.stat-card h5 {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.stat-card h3 {
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+.chart-placeholder {
+  border: 1px dashed #ccc;
+}
+
+.progress-bar {
+  font-size: 0.8rem;
+}
