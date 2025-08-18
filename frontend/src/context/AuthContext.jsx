@@ -44,8 +44,10 @@ export const AuthProvider = ({ children }) => {
         // Redirect based on userType
         if (res.data.userType === 'Admin') {
           navigate('/admin-dashboard');
+        } else if (res.data.userType === 'Service Provider') {
+          navigate('/providerhome');
         } else {
-          navigate('/'); // normal User
+          navigate('/'); // default for Customer or others
         }
       }
     } catch (err) {
