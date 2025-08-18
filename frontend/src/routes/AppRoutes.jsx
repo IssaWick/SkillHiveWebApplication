@@ -12,6 +12,7 @@ import About from '../pages/About'
 import AdminDashboard from "../pages/adminPages/adminDashboard";
 import ManageUsers from "../pages/adminPages/ManageUsers";
 import AdminLayout from "../layouts/AdminLayout";
+import Contact from '../pages/Contact'
 
 const AppRoutes = () => {
   return (
@@ -22,9 +23,10 @@ const AppRoutes = () => {
       <Route path="/About" element={<About />} />
       <Route path="/providerhome" element={<ProviderHome />} />
       <Route path="/findservices" element={<FindServices />} />
-        <Route path="/quickbookform" element={<QuickBookForm />} />
+      <Route path="/quickbookform" element={<QuickBookForm />} />
       <Route path="/customer-profile" element={<CustomerProfile />} />
       <Route path="/service-provider-profile" element={<ServiceProviderProfile />} />
+      <Route path="/contact" element={<Contact/>} />
 
       {/* Admin Routes inside AdminLayout */}
       <Route
