@@ -10,20 +10,16 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [profilePic, setProfilePic] = useState(defaultAvatar);
 
-  // Fetch logged-in user's profile picture
+  // Fetch logged-in user's profile picture (only for normal users: Customer or Service Provider)
   useEffect(() => {
     const fetchProfile = async () => {
-      if (isAuthenticated) {
+      if (isAuthenticated && (userType === 'Customer' || userType === 'Service Provider')) {
         try {
           const response = await axios.get('http://localhost:3002/api/getProfile', {
             withCredentials: true, // send JWT cookie
           });
-          const { profilePicture } = response.data;
-          if (profilePicture) {
-            setProfilePic(profilePicture);
-          } else {
-            setProfilePic(defaultAvatar);
-          }
+          const profilePicture = response.data.profilePicture || defaultAvatar;
+          setProfilePic(profilePicture);
         } catch (error) {
           console.error('Error fetching profile:', error);
           setProfilePic(defaultAvatar);
@@ -31,7 +27,7 @@ const Navbar = () => {
       }
     };
     fetchProfile();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, userType]);
 
   const handleLogout = async () => {
     await logout();
@@ -56,35 +52,11 @@ const Navbar = () => {
 
         <div className="collapse navbar-collapse justify-content-end">
           <ul className="navbar-nav align-items-center">
-            <li className="nav-item"><Link className="nav-link text-white" to="/">Home</Link></li>
-            <li className="nav-item"><Link className="nav-link text-white" to="/About">About</Link></li>
-            <li className="nav-item"><Link className="nav-link text-white" to="#">Contact</Link></li>
-
-            {isAuthenticated && (
-              <li className="nav-item"><Link className="nav-link text-white" to="/findservices#">Hired Services</Link></li>
-            )}
-
-            {isAuthenticated ? (
+            {userType === 'Admin' ? (
               <>
-                {/* Notification Bell */}
-                <li className="nav-item mx-2">
-                  <button className="btn btn-link text-white p-0 fs-5" onClick={() => alert('Notifications')}>
-                    <i className="bi bi-bell-fill"></i>
-                  </button>
-                </li>
-
-                {/* Profile Picture */}
-                <li className="nav-item me-2">
-                  <img
-                    src={profilePic}
-                    alt="Profile"
-                    onClick={goToProfile}
-                    className="rounded-circle"
-                    style={{ width: '32px', height: '32px', cursor: 'pointer', objectFit: 'cover' }}
-                  />
-                </li>
-
-                {/* Logout Icon */}
+                <li className="nav-item"><Link className="nav-link text-white" to="/">Home</Link></li>
+                <li className="nav-item"><Link className="nav-link text-white" to="/About">About</Link></li>
+                <li className="nav-item"><Link className="nav-link text-white" to="/services">Services</Link></li>
                 <li className="nav-item">
                   <button className="btn btn-link text-white fs-5" onClick={handleLogout}>
                     <i className="bi bi-box-arrow-right"></i>
@@ -92,9 +64,49 @@ const Navbar = () => {
                 </li>
               </>
             ) : (
-              <li className="nav-item ms-3">
-                <Link to="/signup" className="btn btn-light btn-sm">Sign Up</Link>
-              </li>
+              <>
+                <li className="nav-item"><Link className="nav-link text-white" to="/">Home</Link></li>
+                <li className="nav-item"><Link className="nav-link text-white" to="/About">About</Link></li>
+                <li className="nav-item"><Link className="nav-link text-white" to="/services">Services</Link></li>
+                <li className="nav-item"><Link className="nav-link text-white" to="/contact">Contact</Link></li>
+
+            {isAuthenticated && (
+              <li className="nav-item"><Link className="nav-link text-white" to="/findservices#">Hired Services</Link></li>
+            )}
+
+                {isAuthenticated ? (
+                  <>
+                    {/* Notification Bell */}
+                    <li className="nav-item mx-2">
+                      <button className="btn btn-link text-white p-0 fs-5" onClick={() => alert('Notifications')}>
+                        <i className="bi bi-bell-fill"></i>
+                      </button>
+                    </li>
+
+                    {/* Profile Picture */}
+                    <li className="nav-item me-2">
+                      <img
+                        src={profilePic}
+                        alt="Profile"
+                        onClick={goToProfile}
+                        className="rounded-circle"
+                        style={{ width: '32px', height: '32px', cursor: 'pointer', objectFit: 'cover' }}
+                      />
+                    </li>
+
+                    {/* Logout Icon */}
+                    <li className="nav-item">
+                      <button className="btn btn-link text-white fs-5" onClick={handleLogout}>
+                        <i className="bi bi-box-arrow-right"></i>
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <li className="nav-item ms-3">
+                    <Link to="/signup" className="btn btn-light btn-sm">Sign Up</Link>
+                  </li>
+                )}
+              </>
             )}
           </ul>
         </div>

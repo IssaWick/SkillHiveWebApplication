@@ -11,6 +11,12 @@ import QuickBookForm from '../pages/QuickBookForm'
 import About from '../pages/About'
 import ProviderJobRequests from '../pages/ProviderJobRequests'
 
+import AdminDashboard from "../pages/adminPages/adminDashboard";
+import ManageUsers from "../pages/adminPages/ManageUsers";
+import AdminLayout from "../layouts/AdminLayout";
+import Contact from '../pages/Contact'
+import Services from '../pages/Services'
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -21,9 +27,29 @@ const AppRoutes = () => {
       <Route path="/providerhome" element={<ProviderHome />} />
       <Route path="/provider/jobRequests" element={<ProviderJobRequests />} />
       <Route path="/findservices" element={<FindServices />} />
-        <Route path="/quickbookform" element={<QuickBookForm />} />
+      <Route path="/quickbookform" element={<QuickBookForm />} />
       <Route path="/customer-profile" element={<CustomerProfile />} />
       <Route path="/service-provider-profile" element={<ServiceProviderProfile />} />
+      <Route path="/contact" element={<Contact/>} />
+      <Route path="/services" element={<Services/>} />
+
+      {/* Admin Routes inside AdminLayout */}
+      <Route
+        path="/admin-dashboard"
+        element={
+          <AdminLayout>
+            <AdminDashboard />
+          </AdminLayout>
+        }
+      />
+      <Route
+        path="/Manage-Users"
+        element={
+          <AdminLayout>
+            <ManageUsers />
+          </AdminLayout>
+        }
+      />
     </Routes>
   )
 }
