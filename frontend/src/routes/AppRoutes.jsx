@@ -13,6 +13,7 @@ import AdminDashboard from "../pages/adminPages/adminDashboard";
 import ManageUsers from "../pages/adminPages/ManageUsers";
 import AdminLayout from "../layouts/AdminLayout";
 import Contact from '../pages/Contact'
+import Services from '../pages/Services'
 
 const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoutes = () => {
       <Route path="/customer-profile" element={<CustomerProfile />} />
       <Route path="/service-provider-profile" element={<ServiceProviderProfile />} />
       <Route path="/contact" element={<Contact/>} />
+      <Route path="/services" element={<Services/>} />
 
       {/* Admin Routes inside AdminLayout */}
       <Route

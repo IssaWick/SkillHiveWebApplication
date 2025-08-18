@@ -56,7 +56,7 @@ const Navbar = () => {
               <>
                 <li className="nav-item"><Link className="nav-link text-white" to="/">Home</Link></li>
                 <li className="nav-item"><Link className="nav-link text-white" to="/About">About</Link></li>
-                <li className="nav-item"><Link className="nav-link text-white" to="#">Services</Link></li>
+                <li className="nav-item"><Link className="nav-link text-white" to="/services">Services</Link></li>
                 <li className="nav-item">
                   <button className="btn btn-link text-white fs-5" onClick={handleLogout}>
                     <i className="bi bi-box-arrow-right"></i>
@@ -67,7 +67,7 @@ const Navbar = () => {
               <>
                 <li className="nav-item"><Link className="nav-link text-white" to="/">Home</Link></li>
                 <li className="nav-item"><Link className="nav-link text-white" to="/About">About</Link></li>
-                <li className="nav-item"><Link className="nav-link text-white" to="#">Services</Link></li>
+                <li className="nav-item"><Link className="nav-link text-white" to="/services">Services</Link></li>
                 <li className="nav-item"><Link className="nav-link text-white" to="/contact">Contact</Link></li>
 
                 {isAuthenticated && (
