@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [userType, setUserType] = useState(null);
   const navigate = useNavigate();
 
-  // Check authentication and get user type on mount
+  // Check authentication on mount
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -36,14 +36,17 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.post('http://localhost:3001/api/login', credentials, {
         withCredentials: true,
       });
+
       if (res.status === 200) {
         setIsAuthenticated(true);
-        // After login, get user profile to get userType
-        const profileRes = await axios.get('http://localhost:3002/api/getProfile', {
-          withCredentials: true,
-        });
-        setUserType(profileRes.data.userType || null);
-        navigate('/'); // redirect home after login
+        setUserType(res.data.userType || null);
+
+        // Redirect based on userType
+        if (res.data.userType === 'Admin') {
+          navigate('/admin-dashboard');
+        } else {
+          navigate('/'); // normal User
+        }
       }
     } catch (err) {
       console.error('Login failed:', err);
@@ -56,7 +59,7 @@ export const AuthProvider = ({ children }) => {
       await axios.post('http://localhost:3001/api/logout', {}, { withCredentials: true });
       setIsAuthenticated(false);
       setUserType(null);
-      navigate('/'); // redirect home after logout
+      navigate('/'); // redirect home
     } catch (err) {
       console.error('Logout failed:', err);
     }
