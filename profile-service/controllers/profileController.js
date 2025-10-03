@@ -1,5 +1,6 @@
 // controllers/profileController.js
 import pool from "../config/userDb.js";
+import servicePool from "../config/servicesDb.js";
 import { putObjectFromBuffer, deleteObjectByKey } from "../utils/s3.js";
 
 // GET /profile
@@ -250,6 +251,180 @@ export const deleteUserById = async (req, res) => {
   } catch (err) {
     console.error("deleteUserById error:", err);
     return res.status(500).json({ error: "Failed to delete user" });
+  } finally {
+    if (conn) conn.release();
+  }
+};
+
+// POST /addService
+export const addService = async (req, res) => {
+  const providerId = req.user?.id;
+  if (!providerId) return res.status(401).json({ error: "Unauthorized" });
+
+  const { service_name, service_type, description, city, district } = req.body;
+
+  if (!service_name || !service_type || !description || !city || !district) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  let uploadedKey = null;
+  let uploadedUrl = null;
+
+  try {
+    // If certificate file uploaded
+    if (req.file && req.file.buffer) {
+      const { key, url } = await putObjectFromBuffer({
+        buffer: req.file.buffer,
+        contentType: req.file.mimetype,
+        keyPrefix: "certificates",
+        userId: providerId,
+      });
+      uploadedKey = key;
+      uploadedUrl = url;
+    }
+
+    const conn = await servicePool.getConnection();
+    const sql = `
+      INSERT INTO services 
+      (service_name, service_type, description, provider_id, city, district, certificate, certificateKey, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pending')
+    `;
+    const params = [
+      service_name,
+      service_type,
+      description,
+      providerId,
+      city,
+      district,
+      uploadedUrl,
+      uploadedKey,
+    ];
+
+    const [result] = await conn.execute(sql, params);
+    conn.release();
+
+    return res.status(201).json({
+      message: "Service added successfully",
+      serviceId: result.insertId,
+      certificate: uploadedUrl,
+      status: "pending",
+    });
+  } catch (err) {
+    console.error("addService error:", err);
+    return res.status(500).json({ error: "Failed to add service" });
+  }
+};
+
+// GET /myAcceptedServices
+export const getProviderAcceptedServices = async (req, res) => {
+  const providerId = req.user?.id;
+  if (!providerId) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const conn = await servicePool.getConnection();
+    const [rows] = await conn.execute(
+      `SELECT * FROM services WHERE provider_id = ? AND status = 'Accept'`,
+      [providerId]
+    );
+    conn.release();
+
+    return res.status(200).json(rows);
+  } catch (err) {
+    console.error("getProviderAcceptedServices error:", err);
+    return res.status(500).json({ error: "Failed to fetch services" });
+  }
+};
+
+// GET /allServices
+export const getAllServices = async (req, res) => {
+  try {
+    const conn = await servicePool.getConnection();
+    const [rows] = await conn.execute(`SELECT * FROM services`);
+    conn.release();
+
+    return res.status(200).json(rows);
+  } catch (err) {
+    console.error("getAllServices error:", err);
+    return res.status(500).json({ error: "Failed to fetch all services" });
+  }
+};
+
+// PUT /updateServiceStatus/:id
+export const updateServiceStatus = async (req, res) => {
+  if (!req.user || req.user.userType !== "Admin") {
+    return res.status(403).json({ error: "Forbidden - Admins only" });
+  }
+
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!id || !status) {
+    return res.status(400).json({ error: "Service ID and status required" });
+  }
+  if (!["Accept", "Declined"].includes(status)) {
+    return res.status(400).json({ error: "Status must be Accept or Declined" });
+  }
+
+  try {
+    const conn = await servicePool.getConnection();
+    const [result] = await conn.execute(
+      `UPDATE services SET status = ? WHERE service_id = ?`,
+      [status, id]
+    );
+    conn.release();
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Service not found" });
+    }
+
+    return res.status(200).json({ message: "Service status updated", status });
+  } catch (err) {
+    console.error("updateServiceStatus error:", err);
+    return res.status(500).json({ error: "Failed to update status" });
+  }
+};
+
+export const deleteServiceById = async (req, res) => {
+  const { id } = req.params; // service_id
+  if (!id) return res.status(400).json({ error: "Service ID required" });
+
+  let conn;
+  try {
+    conn = await servicePool.getConnection();
+
+    // Fetch service first
+    const [rows] = await conn.execute(
+      `SELECT provider_id, certificateKey FROM services WHERE service_id = ?`,
+      [id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Service not found" });
+    }
+
+    const service = rows[0];
+
+    // Check permission: only Admin or service owner can delete
+    if (req.user?.userType !== "Admin" && req.user?.id !== service.provider_id) {
+      return res.status(403).json({ error: "Forbidden - Not allowed to delete this service" });
+    }
+
+    // Delete service
+    await conn.execute(`DELETE FROM services WHERE service_id = ?`, [id]);
+
+    // Cleanup S3 certificate if exists
+    if (service.certificateKey) {
+      try {
+        await deleteObjectByKey(service.certificateKey);
+      } catch (err) {
+        console.warn("S3 certificate delete warning:", err?.message || err);
+      }
+    }
+
+    return res.status(200).json({ message: "Service deleted successfully" });
+  } catch (err) {
+    console.error("deleteServiceById error:", err);
+    return res.status(500).json({ error: "Failed to delete service" });
   } finally {
     if (conn) conn.release();
   }
