@@ -71,7 +71,7 @@ const Navbar = () => {
                 <li className="nav-item"><Link className="nav-link text-white" to="/contact">Contact</Link></li>
 
                 {isAuthenticated && (
-                  <li className="nav-item"><Link className="nav-link text-white" to="#">Hired Services</Link></li>
+                  <li className="nav-item"><Link className="nav-link text-white" to="/findservices">Hired Services</Link></li>
                 )}
 
                 {isAuthenticated ? (
