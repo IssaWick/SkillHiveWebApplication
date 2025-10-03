@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../assets/SkillHive.png';
 import defaultAvatar from '../assets/default-avatar.png';
 import { useAuth } from '../context/AuthContext';
+import "../App.css";
 
 const Navbar = () => {
   const { isAuthenticated, userType, logout } = useAuth();
   const navigate = useNavigate();
   const [profilePic, setProfilePic] = useState(defaultAvatar);
 
-  // Fetch logged-in user's profile picture (only for normal users: Customer or Service Provider)
+  // Fetch logged-in user's profile picture
   useEffect(() => {
     const fetchProfile = async () => {
       if (isAuthenticated && (userType === 'Customer' || userType === 'Service Provider')) {
         try {
           const response = await axios.get('http://localhost:3002/api/getProfile', {
-            withCredentials: true, // send JWT cookie
+            withCredentials: true,
           });
           const profilePicture = response.data.profilePicture || defaultAvatar;
           setProfilePic(profilePicture);
@@ -44,41 +45,45 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg custom-navbar px-4" style={{ backgroundColor: '#4CB67A' }}>
+    <nav className="navbar navbar-expand-lg custom-navbar px-4">
       <div className="container-fluid">
-        <Link className="navbar-brand d-flex align-items-center" to="/">
+        <NavLink className="navbar-brand d-flex align-items-center" to="/">
           <img src={logo} alt="SkillHive Logo" width="40" height="40" className="me-2-logo" />
-        </Link>
+        </NavLink>
 
         <div className="collapse navbar-collapse justify-content-end">
           <ul className="navbar-nav align-items-center">
             {userType === 'Admin' ? (
               <>
-                <li className="nav-item"><Link className="nav-link text-white" to="/">Home</Link></li>
-                <li className="nav-item"><Link className="nav-link text-white" to="/About">About</Link></li>
-                <li className="nav-item"><Link className="nav-link text-white" to="/services">Services</Link></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/">Home</NavLink></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/About">About</NavLink></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/services">Services</NavLink></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/admin-dashboard">Dashboard</NavLink></li>
                 <li className="nav-item">
-                  <button className="btn btn-link text-white fs-5" onClick={handleLogout}>
+                  <button className="btn btn-link logout-btn" onClick={handleLogout}>
                     <i className="bi bi-box-arrow-right"></i>
                   </button>
                 </li>
               </>
             ) : (
               <>
-                <li className="nav-item"><Link className="nav-link text-white" to="/">Home</Link></li>
-                <li className="nav-item"><Link className="nav-link text-white" to="/About">About</Link></li>
-                <li className="nav-item"><Link className="nav-link text-white" to="/services">Services</Link></li>
-                <li className="nav-item"><Link className="nav-link text-white" to="/contact">Contact</Link></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/">Home</NavLink></li>
+                {userType === 'Service Provider' && isAuthenticated && (
+                  <li className="nav-item"><NavLink className="nav-link" to="/providerhome">Dashboard</NavLink></li>
+                )}
+                <li className="nav-item"><NavLink className="nav-link" to="/About">About</NavLink></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/services">Services</NavLink></li>
+                <li className="nav-item"><NavLink className="nav-link" to="/contact">Contact</NavLink></li>
 
                 {isAuthenticated && (
-                  <li className="nav-item"><Link className="nav-link text-white" to="#">Hired Services</Link></li>
+                  <li className="nav-item"><NavLink className="nav-link" to="/hired-services">Hired Services</NavLink></li>
                 )}
 
                 {isAuthenticated ? (
                   <>
                     {/* Notification Bell */}
                     <li className="nav-item mx-2">
-                      <button className="btn btn-link text-white p-0 fs-5" onClick={() => alert('Notifications')}>
+                      <button className="btn btn-link notification-btn" onClick={() => alert('Notifications')}>
                         <i className="bi bi-bell-fill"></i>
                       </button>
                     </li>
@@ -89,21 +94,20 @@ const Navbar = () => {
                         src={profilePic}
                         alt="Profile"
                         onClick={goToProfile}
-                        className="rounded-circle"
-                        style={{ width: '32px', height: '32px', cursor: 'pointer', objectFit: 'cover' }}
+                        className="profile-avatar"
                       />
                     </li>
 
                     {/* Logout Icon */}
                     <li className="nav-item">
-                      <button className="btn btn-link text-white fs-5" onClick={handleLogout}>
+                      <button className="btn btn-link logout-btn" onClick={handleLogout}>
                         <i className="bi bi-box-arrow-right"></i>
                       </button>
                     </li>
                   </>
                 ) : (
                   <li className="nav-item ms-3">
-                    <Link to="/signup" className="btn btn-light btn-sm">Sign Up</Link>
+                    <NavLink to="/signup" className="btn btn-light btn-sm">Sign Up</NavLink>
                   </li>
                 )}
               </>

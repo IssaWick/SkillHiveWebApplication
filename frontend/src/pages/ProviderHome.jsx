@@ -16,7 +16,7 @@ const ProviderHome = () => {
           <h4>My Services</h4>
         </div>
         
-       <Link to="/creteservice" className="card-link">
+       <Link to="/addService" className="card-link">
          <div className="card">
          <FaPlus size={35} />
          <h4>Add New Service</h4>

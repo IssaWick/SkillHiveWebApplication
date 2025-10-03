@@ -22,8 +22,13 @@ const Sidebar = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="/Manage-Users" className={`nav-link ${isActive("/Manage-Users")}`}>
+          <Link to="/manage-users" className={`nav-link ${isActive("/manage-users")}`}>
             <i className="bi bi-people me-2"></i> Manage Users
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link to="/manage-services" className={`nav-link ${isActive("/manage-services")}`}>
+            <i class="bi bi-tools me-2"></i> Manage Services
           </Link>
         </li>
         <li className="nav-item">
