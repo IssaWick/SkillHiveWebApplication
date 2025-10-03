@@ -9,13 +9,13 @@ import ProviderHome from '../pages/ProviderHome'
 import FindServices from '../pages/FindServices'
 import QuickBookForm from '../pages/QuickBookForm'
 import About from '../pages/About'
-import ProviderJobRequests from '../pages/ProviderJobRequests'
-
 import AdminDashboard from "../pages/adminPages/adminDashboard";
 import ManageUsers from "../pages/adminPages/ManageUsers";
 import AdminLayout from "../layouts/AdminLayout";
 import Contact from '../pages/Contact'
 import Services from '../pages/Services'
+import AddService from '../pages/AddService';
+import ManageServices from '../pages/adminPages/ManageServices';
 
 const AppRoutes = () => {
   return (
@@ -25,13 +25,13 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/About" element={<About />} />
       <Route path="/providerhome" element={<ProviderHome />} />
-      <Route path="/provider/jobRequests" element={<ProviderJobRequests />} />
       <Route path="/findservices" element={<FindServices />} />
       <Route path="/quickbookform" element={<QuickBookForm />} />
       <Route path="/customer-profile" element={<CustomerProfile />} />
       <Route path="/service-provider-profile" element={<ServiceProviderProfile />} />
       <Route path="/contact" element={<Contact/>} />
       <Route path="/services" element={<Services/>} />
+      <Route path="/addservice" element={<AddService />} />
 
       {/* Admin Routes inside AdminLayout */}
       <Route
@@ -43,10 +43,18 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path="/Manage-Users"
+        path="/manage-users"
         element={
           <AdminLayout>
             <ManageUsers />
+          </AdminLayout>
+        }
+      />
+      <Route
+        path="/manage-services"
+        element={
+          <AdminLayout>
+            <ManageServices />
           </AdminLayout>
         }
       />

@@ -12,6 +12,7 @@ const ServiceProviderProfile = () => {
   const [formData, setFormData] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
   const [removePic, setRemovePic] = useState(false);
+  const [acceptedServices, setAcceptedServices] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,7 +38,19 @@ const ServiceProviderProfile = () => {
       }
     };
 
+    const fetchAcceptedServices = async () => {
+      try {
+        const res = await axios.get(`${API_BASE}/myAcceptedServices`, {
+          withCredentials: true,
+        });
+        setAcceptedServices(res.data);
+      } catch (err) {
+        console.error("Failed to fetch accepted services:", err);
+      }
+    };
+
     fetchUser();
+    fetchAcceptedServices();
   }, [navigate]);
 
   const handleEditClick = () => setEditMode(true);
@@ -94,6 +107,22 @@ const ServiceProviderProfile = () => {
     } catch (err) {
       console.error("Error updating profile:", err.response?.data || err.message);
       alert(err.response?.data?.error || "Failed to update profile");
+    }
+  };
+
+  const handleDeleteService = async (serviceId) => {
+    if (!window.confirm("Are you sure you want to delete this service?")) return;
+
+    try {
+      await axios.delete(`${API_BASE}/deleteService/${serviceId}`, {
+        withCredentials: true,
+      });
+
+      // Remove from state
+      setAcceptedServices((prev) => prev.filter((s) => s.service_id !== serviceId));
+    } catch (err) {
+      console.error("Failed to delete service:", err.response?.data || err.message);
+      alert(err.response?.data?.error || "Failed to delete service");
     }
   };
 
@@ -298,6 +327,50 @@ const ServiceProviderProfile = () => {
           </button>
         </div>
       )}
+
+      <hr className="my-4" />
+
+      {/* Accepted Services */}
+      <div className="mt-5">
+        <h5>Services</h5>
+        {acceptedServices.length === 0 ? (
+          <p className="text-muted">No accepted services yet.</p>
+        ) : (
+          <div className="service-cards">
+            {acceptedServices.map((service) => (
+              <div key={service.service_id} className="service-card card mb-3">
+                {editMode && (
+                  <button
+                    className="btn btn-sm btn-danger delete-btn"
+                    onClick={() => handleDeleteService(service.service_id)}
+                    title="Delete Service"
+                  >
+                    <i className="bi bi-trash" />
+                  </button>
+                )}
+                <div className="card-body">
+                  <h6 className="card-title">{service.service_name}</h6>
+                  <p className="card-text">
+                    <strong>Type:</strong> {service.service_type} <br />
+                    <strong>Description:</strong> {service.description} <br />
+                    <strong>City/District:</strong> {service.city}/{service.district}
+                  </p>
+                  {service.certificate && (
+                    <a
+                      href={service.certificate}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn btn-sm btn-outline-primary"
+                    >
+                      Download Certificate
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
