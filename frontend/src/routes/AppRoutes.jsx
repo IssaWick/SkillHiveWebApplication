@@ -15,6 +15,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import Contact from '../pages/Contact'
 import Services from '../pages/Services'
 import AddService from '../pages/AddService';
+import ProviderJobRequests from '../pages/ProviderJobRequests';
 import ManageServices from '../pages/adminPages/ManageServices';
 
 const AppRoutes = () => {
@@ -28,6 +29,7 @@ const AppRoutes = () => {
       <Route path="/findservices" element={<FindServices />} />
       <Route path="/quickbookform" element={<QuickBookForm />} />
       <Route path="/customer-profile" element={<CustomerProfile />} />
+      <Route path="/provider/jobRequests" element={<ProviderJobRequests />} />
       <Route path="/service-provider-profile" element={<ServiceProviderProfile />} />
       <Route path="/contact" element={<Contact/>} />
       <Route path="/services" element={<Services/>} />

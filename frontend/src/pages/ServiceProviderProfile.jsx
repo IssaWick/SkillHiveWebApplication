@@ -138,7 +138,7 @@ const ServiceProviderProfile = () => {
   return (
     <div className="container mt-5">
       <div className="d-flex flex-wrap justify-content-between align-items-start">
-        {/* Left Section: Profile Picture, Name, Reviews, Edit */}
+        
         <div className="text-center flex-grow-1">
           <div className="position-relative d-inline-block">
             <img

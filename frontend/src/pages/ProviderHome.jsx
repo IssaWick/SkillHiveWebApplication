@@ -22,21 +22,23 @@ const ProviderHome = () => {
          <h4>Add New Service</h4>
          </div>
        </Link>
-
-        <div className="card">
+        <Link to="/provider/jobRequests" className="card-link">
+         <div className="card">
           <FaCalendarAlt size={35} />
           <h4>Bookings</h4>
         </div>
+        </Link>
        
         <div className="card">
           <FaMoneyBillWave size={35} />
           <h4>Earnings</h4>
         </div>
+          <Link to="/service-provider-profile" className="card-link">
         <div className="card">
           <FaUserCog size={35} />
           <h4>Profile</h4>
         </div>
-        
+        </Link>
       </div>
 
       {/* Floating Action Button */}

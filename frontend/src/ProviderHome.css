@@ -1,7 +1,7 @@
 /* Container */
 .provider-home {
   padding: 20px;
-  background: #f7f8fa; /* soft light background */
+  background: #f7f8fa; 
   min-height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -24,7 +24,7 @@
 .card {
   background: #fff;
   border-radius: 14px;
-  padding: 50px 20px; /* reduced padding for nicer look */
+  padding: 50px 20px;
   text-align: center;
   cursor: pointer;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
@@ -32,7 +32,7 @@
 }
 
 .card:hover {
-  background: #f0f8ff; /* subtle blue hover */
+  background: #f0f8ff;
   transform: translateY(-6px);
   box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
 }
@@ -40,7 +40,7 @@
 /* Icon inside Card */
 .card svg {
   font-size: 45px;
-  color: #007bff; /* matching FAB color */
+  color: #007bff; 
   margin-bottom: 12px;
 }
 
@@ -56,7 +56,7 @@
   text-decoration: none;
 }
 
-/* Floating Action Button (FAB) */
+/* Floating Action Button  */
 .fab {
   position: fixed;
   bottom: 25px;

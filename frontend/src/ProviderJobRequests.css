@@ -1,4 +1,4 @@
-/* ===== Container Styles ===== */
+/* Container Styles */
 .job-detail-container {
   display: flex;
   gap: 20px;
@@ -6,7 +6,7 @@
   margin: 20px;
 }
 
-/* ===== Card Styles ===== */
+/* Card Styles */
 .job-card {
   flex: 1;
   min-width: 320px;
@@ -29,7 +29,7 @@
   padding-bottom: 8px;
 }
 
-/* ===== Detail Row ===== */
+/*  Detail Row  */
 .detail-row {
   display: flex;
   justify-content: space-between;
@@ -94,7 +94,7 @@
 }
 
 
-/* ===== Table Styles ===== */
+/*  Table Styles  */
 table {
   width: 100%;
   border-collapse: collapse;

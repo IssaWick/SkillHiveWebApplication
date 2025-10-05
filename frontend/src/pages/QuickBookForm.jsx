@@ -210,7 +210,7 @@ const QuickBookForm = ({ onClose }) => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get("http://localhost:3002/api/getProfile", {
-          withCredentials: true // to send cookies
+          withCredentials: true 
         });
         
         if (response.data && response.data.id) {
