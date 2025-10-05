@@ -19,4 +19,34 @@ exports.createRequest = (req, res) => {
     });
   });
 };
+exports.getRequestsByProvider = (req, res) => {
+  const providerId = req.params.provider_id;
 
+  Model.getRequestsByProvider(providerId, (err, results) => {
+    if (err) {
+      console.error('Error:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    res.status(200).json({
+      message: 'Job requests fetched successfully',
+      data: results
+    });
+  });
+};
+exports.updateStatus = (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!status) {
+    return res.status(400).json({ error: "Status is required" });
+  }
+
+  Model.updateRequestStatus(id, status, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Failed to update status" });
+    }
+    res.json({ message: "Status updated successfully" });
+  });
+};

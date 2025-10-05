@@ -20,3 +20,13 @@ exports.createRequest = (data, callback) => {
     callback
   );
 };
+
+exports.getRequestsByProvider = (providerId, callback) => {
+  const sql = 'SELECT * FROM job_requests WHERE provider_id = ?';
+  db.query(sql, [providerId], callback);
+};
+
+exports.updateRequestStatus = (requestId, status, callback) => {
+  const sql = 'UPDATE job_requests SET status = ? WHERE id = ?';
+  db.query(sql, [status, requestId], callback);
+};
