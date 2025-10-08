@@ -62,19 +62,19 @@ const ManageUsers = () => {
   };
 
   const renderTable = (title, data) => {
-    // 🔍 Apply search term (matches id, name, nic, email, contact, city, district)
+    // Apply search term (matches id, name, nic, email, contact, city, district)
     let filtered = data;
     if (searchTerm.trim() !== "") {
       const term = searchTerm.toLowerCase();
       filtered = data.filter(
         (u) =>
           u.id.toString().includes(term) ||
-          (u.name && u.name.toLowerCase().includes(term)) ||
-          (u.nic && u.nic.toLowerCase().includes(term)) ||
-          (u.email && u.email.toLowerCase().includes(term)) ||
-          (u.contact && u.contact.toLowerCase().includes(term)) ||
-          (u.city && u.city.toLowerCase().includes(term)) ||
-          (u.district && u.district.toLowerCase().includes(term))
+          (u.name && u.name.toLowerCase().includes(term))
+          //(u.nic && u.nic.toLowerCase().includes(term)) ||
+          //(u.email && u.email.toLowerCase().includes(term)) ||
+          //(u.contact && u.contact.toLowerCase().includes(term)) ||
+          //(u.city && u.city.toLowerCase().includes(term)) ||
+          //(u.district && u.district.toLowerCase().includes(term))
       );
     }
 
