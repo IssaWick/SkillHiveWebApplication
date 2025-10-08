@@ -62,6 +62,14 @@ const SignupForm = () => {
     }
   }
 
+  const districts = [
+    'Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale', 'Nuwara Eliya',
+    'Galle', 'Matara', 'Hambantota', 'Jaffna', 'Kilinochchi', 'Mannar',
+    'Vavuniya', 'Mullaitivu', 'Batticaloa', 'Ampara', 'Trincomalee',
+    'Kurunegala', 'Puttalam', 'Anuradhapura', 'Polonnaruwa', 'Badulla',
+    'Monaragala', 'Ratnapura', 'Kegalle'
+  ]
+
   return (
     <div className="signup-wrapper">
       <div className="signup-form container mt-5 p-4 shadow bg-white rounded">
@@ -83,6 +91,7 @@ const SignupForm = () => {
               </select>
               <div className="text-danger">{errors.userType}</div>
             </div>
+
             <div className="col-md-6 mb-3">
               <label>Full name</label>
               <input
@@ -144,13 +153,19 @@ const SignupForm = () => {
 
             <div className="col-md-6 mb-3">
               <label>District</label>
-              <input
-                type="text"
+              <select
                 className="form-control"
                 name="district"
                 value={formData.district}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Select District</option>
+                {districts.map((district, index) => (
+                  <option key={index} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="col-md-6 mb-3">

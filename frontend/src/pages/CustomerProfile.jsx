@@ -14,6 +14,14 @@ const CustomerProfile = () => {
   const [removePic, setRemovePic] = useState(false);
   const navigate = useNavigate();
 
+  const districts = [
+    "Colombo", "Gampaha", "Kalutara", "Kandy", "Matale", "Nuwara Eliya",
+    "Galle", "Matara", "Hambantota", "Jaffna", "Kilinochchi", "Mannar",
+    "Vavuniya", "Mullaitivu", "Batticaloa", "Ampara", "Trincomalee",
+    "Kurunegala", "Puttalam", "Anuradhapura", "Polonnaruwa",
+    "Badulla", "Monaragala", "Ratnapura", "Kegalle"
+  ];
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -59,7 +67,6 @@ const CustomerProfile = () => {
   const handleSaveClick = async () => {
     try {
       const data = new FormData();
-      // Now NIC and email are also updatable
       const updatable = ["name", "contact", "district", "city", "age", "nic", "email"];
       updatable.forEach((k) => {
         if (formData[k] !== undefined && formData[k] !== null) {
@@ -100,7 +107,7 @@ const CustomerProfile = () => {
   return (
     <div className="container mt-5">
       <div className="d-flex flex-wrap justify-content-between align-items-start">
-        {/* Left Section: Profile Picture, Name, Reviews, Edit */}
+        {/* Left Section */}
         <div className="text-center flex-grow-1">
           <div className="position-relative d-inline-block">
             <img
@@ -151,10 +158,8 @@ const CustomerProfile = () => {
             )}
           </div>
 
-          {/* Reviews */}
           {!editMode && <div className="text-muted mb-2">4.9 · 123 reviews</div>}
 
-          {/* Edit Button */}
           {!editMode && (
             <button className="btn btn-outline-primary btn-sm" onClick={handleEditClick}>
               <i className="bi bi-pencil me-1" /> Edit
@@ -162,7 +167,7 @@ const CustomerProfile = () => {
           )}
         </div>
 
-        {/* Right Section: Verified Info */}
+        {/* Right Section */}
         <div style={{ minWidth: 250 }}>
           <h5>Verified</h5>
           <p>
@@ -241,13 +246,19 @@ const CustomerProfile = () => {
             <strong>District</strong>
             <br />
             {editMode ? (
-              <input
-                type="text"
+              <select
                 name="district"
                 className="form-control"
                 value={formData.district || ""}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Select District</option>
+                {districts.map((d, i) => (
+                  <option key={i} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
             ) : (
               user.district
             )}
@@ -270,7 +281,6 @@ const CustomerProfile = () => {
         </div>
       </div>
 
-      {/* Save/Cancel Buttons aligned left with same style as Change/Remove */}
       {editMode && (
         <div className="d-flex gap-2 mt-4 mb-5">
           <button

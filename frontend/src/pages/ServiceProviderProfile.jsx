@@ -15,6 +15,14 @@ const ServiceProviderProfile = () => {
   const [acceptedServices, setAcceptedServices] = useState([]);
   const navigate = useNavigate();
 
+  const districts = [
+    "Colombo", "Gampaha", "Kalutara", "Kandy", "Matale", "Nuwara Eliya",
+    "Galle", "Matara", "Hambantota", "Jaffna", "Kilinochchi", "Mannar",
+    "Vavuniya", "Mullaitivu", "Batticaloa", "Ampara", "Trincomalee",
+    "Kurunegala", "Puttalam", "Anuradhapura", "Polonnaruwa", "Badulla",
+    "Monaragala", "Ratnapura", "Kegalle"
+  ];
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -138,7 +146,6 @@ const ServiceProviderProfile = () => {
   return (
     <div className="container mt-5">
       <div className="d-flex flex-wrap justify-content-between align-items-start">
-        
         <div className="text-center flex-grow-1">
           <div className="position-relative d-inline-block">
             <img
@@ -279,13 +286,19 @@ const ServiceProviderProfile = () => {
             <strong>District</strong>
             <br />
             {editMode ? (
-              <input
-                type="text"
+              <select
                 name="district"
                 className="form-control"
                 value={formData.district || ""}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Select District</option>
+                {districts.map((district, index) => (
+                  <option key={index} value={district}>
+                    {district}
+                  </option>
+                ))}
+              </select>
             ) : (
               user.district
             )}
